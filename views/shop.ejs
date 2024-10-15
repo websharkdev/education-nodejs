@@ -8,10 +8,10 @@
   <main>
     <h1>My Products</h1>
 
-    <% if(prod.length > 0) { %>
+    <% if(prod?.length > 0) { %>
 
     <div class="grid">
-      <% prod.forEach((item) => { %>
+      <% prod?.forEach((item) => { %>
       <article class="card product-item">
         <header class="card__header">
           <h1 class="product__title"><%= item.title %></h1>
