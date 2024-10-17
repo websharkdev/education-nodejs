@@ -1,8 +1,19 @@
+const path = require('path');
 
-const express = require("express");
+const express = require('express');
+
+const shopController = require('../controllers/shop');
+
 const router = express.Router();
-const productsController = require("../controllers/products"); // Importing the admin routes
 
-router.get("/", productsController.getShop);
+router.get('/', shopController.getIndex);
 
-module.exports = router; // Exporting the router
+router.get('/products', shopController.getProducts);
+
+router.get('/cart', shopController.getCart);
+
+router.get('/orders', shopController.getOrders);
+
+router.get('/checkout', shopController.getCheckout);
+
+module.exports = router;
