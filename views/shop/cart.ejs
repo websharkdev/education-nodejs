@@ -3,4 +3,22 @@
 
     <body>
         <%- include('../includes/navigation.ejs') %>
+
+        <% if(data.length > 0) {%>
+            <ul class="px-6 py-3">
+                <% data.forEach((p) => {%>
+                    <li>
+                        <p class="text-lg"><%= p.products.title %> (<%= p.qty%>)</p>
+                        <form action="/card-delete-item" method="post">
+                            <input type="hidden" name="productID" value="<%= p.products.id %>">
+                            <button type="submit">Delete</button>
+
+                        </form>
+                    </li>
+                <% })%>
+            </ul>
+        <% } else {%>
+            <p>No items founded!</p>
+        <% }%>
+
         <%- include('../includes/end.ejs') %>

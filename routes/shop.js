@@ -10,7 +10,15 @@ router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
+// router.get('/products/delete', ) // Dynamic должен быть ниже чем статичный
+
+router.get('/product/:productID', shopController.getProductItem)
+
 router.get('/cart', shopController.getCart);
+
+router.post('/card-delete-item', shopController.postDeleteCardItem)
+
+router.post("/card", shopController.postCart);
 
 router.get('/orders', shopController.getOrders);
 
