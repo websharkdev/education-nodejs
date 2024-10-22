@@ -1,14 +1,18 @@
 const Product = require("../models/product");
 const Card = require("../models/card");
 
+
+
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render("shop/product-list", {
-      prods: products,
-      pageTitle: "All Products",
-      path: "/products",
-    });
-  });
+  Product.fetchAll()
+    .then(([rows, fields]) => {
+      res.render("shop/product-list", {
+        prods: rows,
+        pageTitle: "All Products",
+        path: "/products",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getProductItem = (req, res, next) => {
@@ -24,27 +28,35 @@ exports.getProductItem = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render("shop/index", {
-      prods: products,
-      pageTitle: "Shop",
-      path: "/",
-    });
-  });
+  Product.fetchAll()
+    .then(([rows, fields]) => {
+      res.render("shop/index", {
+        prods: rows,
+        pageTitle: "Shop",
+        path: "/",
+      });
+  }).catch(err => console.log(err))
+
+  
 };
 
 exports.getCart = (req, res, next) => {
   Card.getCard((card) => {
-    Product.fetchAll((products) => {
-      const cardProducts = []
 
-      products.forEach(product => {
-        const cardProduct = card.products.find(prod => prod.id === product.id)
+    // 
+  Product.fetchAll()
+    .then(([rows, fields]) => {
+     const cardProducts = []
 
-        if(cardProduct) {
+      rows.forEach((product) => {
+        const cardProduct = card.products.find(
+          (prod) => prod.id === product.id
+        );
+
+        if (cardProduct) {
           cardProducts.push({
             products: product,
-            qty: cardProduct.qty
+            qty: cardProduct.qty,
           });
         }
       });
@@ -53,8 +65,8 @@ exports.getCart = (req, res, next) => {
         pageTitle: "Your Cart",
         data: cardProducts,
       });
-
-    });
+    })
+    .catch((err) => console.log(err));
   });
 };
 
