@@ -47,8 +47,10 @@ exports.postEditProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const product = new Product(productID, title, imageUrl, description, price);
-  product.save();
-  res.redirect("/");
+  product.save().then((res) => {
+    console.log(res);
+    res.redirect("/");
+  }).catch((e) => console.log(error))
 };
 
 
