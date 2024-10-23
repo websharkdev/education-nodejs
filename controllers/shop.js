@@ -4,10 +4,10 @@ const Card = require("../models/card");
 
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fields]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/product-list", {
-        prods: rows,
+        prods: products,
         pageTitle: "All Products",
         path: "/products",
       });
@@ -19,12 +19,10 @@ exports.getProductItem = (req, res, next) => {
   const productID = req.params.productID;
 
 
-  Product.fetchItem(productID).then(([product]) => {
-    console.log(product)
-
+  Product.findByPk(productID).then((product) => {
     res.render("shop/product-details", {
-      product: product[0],
-      pageTitle: "Product Item",
+      product: product,
+      pageTitle: product.title,
       path: "/product",
     });
   }).catch((e) => console.log(e))
@@ -32,16 +30,15 @@ exports.getProductItem = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fields]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/index", {
-        prods: rows,
+        prods: products,
         pageTitle: "Shop",
         path: "/",
       });
-  }).catch(err => console.log(err))
-
-  
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
